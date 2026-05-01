@@ -1,7 +1,7 @@
 {
   "name": "p1as",
   "description": "P1AS Platform \u2014 workflow skills, specialist agents, and MCP tools for managing P1AS customer environments (cluster health, secrets, patches, drift, artifacts, SSM, and more)",
-  "version": "0.1.23",
+  "version": "0.1.24",
   "author": {
     "name": "P1AS Platform Team"
   },

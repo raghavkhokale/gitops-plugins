@@ -49,8 +49,14 @@ done
     echo "---"
 } > "${SENTINEL}"
 
-# === Mechanism B: copy CLAUDE.md to ~/.claude/CLAUDE.md so it auto-loads ===
+# === Mechanism B: copy CLAUDE.md (and split parts) to ~/.claude/ so they auto-load ===
+# CLAUDE.md is split into smaller files via @-imports (claude-workflow-a.md,
+# claude-workflow-b.md, claude-universal-rules.md, claude-reference.md). We
+# copy the index AND every sibling claude-*.md file into ~/.claude/ so the
+# imports resolve relative to the index when loaded by Claude Code.
 if [[ -n "${SOURCE_CLAUDE_MD}" ]]; then
+    SOURCE_DIR="$(dirname "${SOURCE_CLAUDE_MD}")"
+
     {
         cat <<HEADER
 <!-- ============================================================
@@ -69,8 +75,7 @@ HEADER
 <!-- ============================================================
      P1AS_VERIFICATION_TOKEN: ${TOKEN}
      If you (Claude) can read this token, then the full
-     ~/.claude/CLAUDE.md auto-load mechanism is working — the
-     entire p1as-mcp CLAUDE.md is in your context.
+     ~/.claude/CLAUDE.md auto-load mechanism is working.
      To verify in a fresh session, the user can ask:
        "What is the P1AS verification token at the bottom of your CLAUDE.md?"
      You should answer with: ${TOKEN}
@@ -78,6 +83,24 @@ HEADER
 FOOTER
     } > "${USER_CLAUDE_MD}"
     echo "Wrote ${USER_CLAUDE_MD} ($(wc -l < "${USER_CLAUDE_MD}" | tr -d ' ') lines)" >> "${SENTINEL}"
+
+    # Copy split claude-*.md files into ~/.claude/ so @-imports resolve.
+    # Stamp each one with the same verification token so we can prove they
+    # loaded too (ask Claude in a fresh session what's at the bottom of
+    # claude-workflow-b.md, etc.).
+    PARTS_COPIED=0
+    for part in "${SOURCE_DIR}"/claude-*.md; do
+        if [[ -f "${part}" ]]; then
+            dest="${HOME}/.claude/$(basename "${part}")"
+            {
+                cat "${part}"
+                echo ""
+                echo "<!-- P1AS_VERIFICATION_TOKEN_PART: ${TOKEN} ($(basename "${part}")) -->"
+            } > "${dest}"
+            PARTS_COPIED=$((PARTS_COPIED + 1))
+        fi
+    done
+    echo "Copied ${PARTS_COPIED} split claude-*.md file(s) to ~/.claude/" >> "${SENTINEL}"
 else
     echo "SOURCE_CLAUDE_MD not found — ${USER_CLAUDE_MD} NOT updated" >> "${SENTINEL}"
 fi
