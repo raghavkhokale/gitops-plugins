@@ -1,0 +1,17 @@
+{
+  "name": "p1as-claude-plugins",
+  "owner": {
+    "name": "P1AS Platform Team"
+  },
+  "metadata": {
+    "description": "Claude Code plugin marketplace for the P1AS Platform — skills, agents, and MCP tools for managing P1AS customer environments"
+  },
+  "plugins": [
+    {
+      "name": "p1as",
+      "description": "Full /p1as:* skill catalog (10 workflow + 38 operation skills), @\"p1as:* (agent)\" specialists, and mcp__server__* tools for P1AS customer environment operations",
+      "version": "0.1.0",
+      "source": "./p1as"
+    }
+  ]
+}

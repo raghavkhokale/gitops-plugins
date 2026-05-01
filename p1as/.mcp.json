@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "server": {
+      "command": "p1as-server",
+      "args": [],
+      "env": {
+        "P1AS_DISABLED_CATEGORIES": "cluster"
+      }
+    }
+  }
+}
