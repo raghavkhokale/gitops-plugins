@@ -16,10 +16,8 @@ This repo packages the AI-facing surface of `gitops-mcp` as a Claude Code plugin
 gitops-mcp (Python package)         gitops-plugins (this repo)
 ├── gitops_mcp/server.py        ──> gitops/skills/<name>/SKILL.md
 │   (@mcp.tool() decorators)        (auto-generated; 1:1)
-├── build/skills/               ──> gitops/skills/
-│   (`make skills` output)          (sync target — see RELEASE.md)
-└── examples/p1as/              ──> NOT mirrored
-    (regression goldens)
+└── build/skills/               ──> gitops/skills/
+    (`make skills` output)          (sync target — see RELEASE.md)
 ```
 
 This repo is largely **a build artifact** — releases of `gitops-mcp` regenerate skills and push them here. Hand-edit only the workflow skills (`gitops/skills/{do,patch,rotate-secrets,resume,feedback}/`), the agent (`gitops/agents/secrets.md`), the SessionStart hook (`gitops/hooks/inject-rules.sh`), and the manifests (`.claude-plugin/marketplace.json`, `gitops/.claude-plugin/plugin.json`, `gitops/.mcp.json`). Auto-generated skill files for `mcp__gitops__*` operations get clobbered by every release.
@@ -74,10 +72,6 @@ In any Claude Code session inside a project tree:
 
 Release flow lives in [RELEASE.md](RELEASE.md). The short version: a tag push on `gitops-mcp` (e.g. `v0.3.0`) regenerates this repo's skills via `make skills` in `gitops-mcp` and pushes the result here at the same tag. Plugin consumers re-pull via `/plugin update gitops@gitops-plugins`.
 
-## Migrating from p1as-claude-plugins
-
-This repo replaces an internal `p1as-claude-plugins` predecessor. See [MIGRATION.md](MIGRATION.md) for the rename map and the breaking changes.
-
 ## Layout
 
 ```
@@ -98,10 +92,9 @@ This repo replaces an internal `p1as-claude-plugins` predecessor. See [MIGRATION
 │       ├── config-read/SKILL.md
 │       └── ...
 ├── README.md                # this file
-├── MIGRATION.md             # P1AS → OSS migration notes
-└── audit.txt                # baseline grep snapshot from refactor day
+└── LICENSE
 ```
 
 ## License
 
-Apache-2.0 (see [LICENSE](LICENSE) once Phase 8 lands).
+[Apache-2.0](LICENSE).

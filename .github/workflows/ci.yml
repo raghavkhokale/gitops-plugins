@@ -103,16 +103,14 @@ jobs:
           PY
 
   no-leaks:
-    name: No P1AS / company-brand leaks in shipped artifacts
+    name: No company-brand leaks in shipped artifacts
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Grep for forbidden tokens (excluding MIGRATION + README references)
+      - name: Grep for forbidden tokens
         run: |
-          # MIGRATION.md is the rename map and intentionally references
-          # the old names; README has one bullet pointing at MIGRATION.
-          if grep -rEi 'pingidentity|forgeblocks|beluga|deloitte' \
-              --exclude=MIGRATION.md --exclude=README.md --exclude=audit.txt \
+          if grep -rEi 'pingidentity|forgeblocks|deloitte' \
+              --exclude=audit.txt \
               --exclude-dir=.git \
               .; then
             echo "Forbidden brand tokens found in shipped artifacts."

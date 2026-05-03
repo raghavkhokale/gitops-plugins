@@ -22,5 +22,4 @@
 - [ ] `shellcheck gitops/hooks/inject-rules.sh` clean (run by CI)
 - [ ] All JSON manifests parse + name-shape sanity checks pass
       (run by CI)
-- [ ] No P1AS / company-brand tokens introduced (run by CI; only
-      MIGRATION.md and one README pointer reference old names)
+- [ ] No company-brand tokens introduced (run by CI's `no-leaks` job)

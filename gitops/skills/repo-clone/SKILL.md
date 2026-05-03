@@ -1,6 +1,6 @@
 ---
 name: gitops:repo-clone
-description: Clone tenant repos (config-repo + profile-repo) to ~/pingcloud/tenants/.
+description: Clone tenant repos (config-repo + profile-repo) to ~/gitops/tenants/.
 when_to_use: |
   Use this skill to invoke the `repo_clone` operation directly.
   Trigger when the user asks specifically about repo clone or when a workflow skill
@@ -9,7 +9,7 @@ when_to_use: |
 
 # /gitops:repo-clone
 
-Clone tenant repos (config-repo + profile-repo) to ~/pingcloud/tenants/.
+Clone tenant repos (config-repo + profile-repo) to ~/gitops/tenants/.
 
 **MCP tool:** `mcp__gitops__repo_clone`
 
