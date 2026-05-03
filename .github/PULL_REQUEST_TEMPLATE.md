@@ -11,7 +11,7 @@
 - [ ] If this PR touches `gitops/skills/<operation-skill>/SKILL.md`
       for an auto-generated skill (anything that's a 1:1 wrapper of
       a `mcp__gitops__*` tool), the change really belongs upstream
-      in [gitops-mcp](https://github.com/<your-user>/gitops-mcp)
+      in [gitops-mcp](https://github.com/raghavkhokale/gitops-mcp)
       as a docstring edit. Confirm the upstream PR or open one.
 - [ ] If this PR touches workflow skills (`do`, `patch`, …), the
       agent (`secrets.md`), the SessionStart hook, or the manifests,

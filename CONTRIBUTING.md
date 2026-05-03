@@ -1,6 +1,6 @@
 # Contributing to gitops-plugins
 
-This repo is mostly a **build artifact** of [gitops-mcp](https://github.com/<your-user>/gitops-mcp).
+This repo is mostly a **build artifact** of [gitops-mcp](https://github.com/raghavkhokale/gitops-mcp).
 Most files in `gitops/skills/` are auto-generated from the upstream
 package's MCP-tool docstrings. Hand-editing those files is a
 short-lived patch — the next release will overwrite them.

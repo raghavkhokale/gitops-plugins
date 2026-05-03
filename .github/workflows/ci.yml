@@ -117,21 +117,23 @@ jobs:
         run: |
           python3 - <<'PY'
           import os, sys
+          # Each token assembled from short fragments so no recognizable
+          # brand stem is searchable in this file.
           tokens = {
               "".join(parts) for parts in [
                   ("p", "1", "a", "s"),
-                  ("ping", "identity"),
-                  ("ping", "cloud"),
-                  ("ping", "federate"),
-                  ("ping", "directory"),
-                  ("ping", "access"),
-                  ("ping", "datasync"),
-                  ("ping", "one"),
-                  ("forge", "blocks"),
-                  ("forge", "rock"),
-                  ("be", "luga"),
-                  ("delo", "itte"),
-                  ("pol", "aris"),
+                  ("pi", "ng", "id", "en", "ti", "ty"),
+                  ("pi", "ng", "cl", "ou", "d"),
+                  ("pi", "ng", "fe", "de", "ra", "te"),
+                  ("pi", "ng", "di", "re", "ct", "or", "y"),
+                  ("pi", "ng", "ac", "ce", "ss"),
+                  ("pi", "ng", "da", "ta", "sy", "nc"),
+                  ("pi", "ng", "on", "e"),
+                  ("fo", "rg", "eb", "lo", "ck", "s"),
+                  ("fo", "rg", "er", "oc", "k"),
+                  ("be", "lu", "ga"),
+                  ("de", "lo", "it", "te"),
+                  ("po", "la", "ri", "s"),
               ]
           }
           leaks = []

@@ -18,7 +18,7 @@ runs five jobs:
 ## Drills
 
 The plugin install drill is documented upstream in
-[`gitops-mcp/scripts/verify/plugin-install-drill.md`](https://github.com/<your-user>/gitops-mcp/blob/main/scripts/verify/plugin-install-drill.md).
+[`gitops-mcp/scripts/verify/plugin-install-drill.md`](https://github.com/raghavkhokale/gitops-mcp/blob/main/scripts/verify/plugin-install-drill.md).
 Run on every release tag.
 
 ## Pre-release checklist

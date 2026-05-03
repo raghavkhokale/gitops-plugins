@@ -9,7 +9,7 @@
   "plugins": [
     {
       "name": "gitops",
-      "description": "gitops-mcp — the full /gitops:* skill catalog (workflow + operation skills), specialist agents, and mcp__gitops__* tools. Configurable per-org via the gitops-mcp init scaffold (see https://github.com/<your-user>/gitops-mcp).",
+      "description": "gitops-mcp — the full /gitops:* skill catalog (workflow + operation skills), specialist agents, and mcp__gitops__* tools. Configurable per-org via the gitops-mcp init scaffold (see https://github.com/raghavkhokale/gitops-mcp).",
       "version": "0.2.0",
       "source": "./gitops"
     }

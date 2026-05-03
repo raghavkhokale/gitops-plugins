@@ -16,7 +16,7 @@ labels: enhancement
 - [ ] Marketplace metadata / install ergonomics
 - [ ] New specialist agent
 - [ ] A new MCP tool — note: this belongs **upstream** in
-      [gitops-mcp](https://github.com/<your-user>/gitops-mcp), not here.
+      [gitops-mcp](https://github.com/raghavkhokale/gitops-mcp), not here.
       Operation skills get auto-generated from upstream docstrings; the
       plugin repo doesn't define new tools.
 

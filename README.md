@@ -1,6 +1,6 @@
 # gitops-plugins
 
-The Claude Code plugin marketplace for [`gitops-mcp`](https://github.com/<your-user>/gitops-mcp) — distributes the `/gitops:*` skill catalog, `@"gitops:secrets (agent)"` specialist agent, and the `mcp__gitops__*` tool surface to every Claude Code session, available from any working directory.
+The Claude Code plugin marketplace for [`gitops-mcp`](https://github.com/raghavkhokale/gitops-mcp) — distributes the `/gitops:*` skill catalog, `@"gitops:secrets (agent)"` specialist agent, and the `mcp__gitops__*` tool surface to every Claude Code session, available from any working directory.
 
 ## What it does
 
@@ -41,7 +41,7 @@ This repo is largely **a build artifact** — releases of `gitops-mcp` regenerat
 Inside Claude Code (CLI or VS Code extension), from any project:
 
 ```
-/plugin marketplace add git@github.com:<your-user>/gitops-plugins.git
+/plugin marketplace add git@github.com:raghavkhokale/gitops-plugins.git
 /plugin install gitops@gitops-plugins
 ```
 
