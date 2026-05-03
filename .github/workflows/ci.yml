@@ -107,13 +107,50 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Grep for forbidden tokens
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Brand-leak check
+        # Forbidden tokens listed character-by-character so the CI
+        # workflow itself doesn't ship the literal brand strings.
         run: |
-          if grep -rEi 'pingidentity|forgeblocks|deloitte' \
-              --exclude=audit.txt \
-              --exclude-dir=.git \
-              .; then
-            echo "Forbidden brand tokens found in shipped artifacts."
-            exit 1
-          fi
-          echo "Clean."
+          python3 - <<'PY'
+          import os, sys
+          tokens = {
+              "".join(parts) for parts in [
+                  ("p", "1", "a", "s"),
+                  ("ping", "identity"),
+                  ("ping", "cloud"),
+                  ("ping", "federate"),
+                  ("ping", "directory"),
+                  ("ping", "access"),
+                  ("ping", "datasync"),
+                  ("ping", "one"),
+                  ("forge", "blocks"),
+                  ("forge", "rock"),
+                  ("be", "luga"),
+                  ("delo", "itte"),
+                  ("pol", "aris"),
+              ]
+          }
+          leaks = []
+          for root, dirs, files in os.walk("."):
+              dirs[:] = [d for d in dirs if d != ".git"]
+              for f in files:
+                  path = os.path.join(root, f)
+                  if path == os.path.join(".", ".github", "workflows", "ci.yml"):
+                      continue  # this file (the obfuscated token list)
+                  try:
+                      text = open(path, encoding="utf-8", errors="ignore").read().lower()
+                  except OSError:
+                      continue
+                  for tok in tokens:
+                      if tok in text:
+                          leaks.append((path, tok))
+          if leaks:
+              for p, t in leaks[:20]:
+                  print(f"LEAK {t} in {p}")
+              sys.exit(1)
+          print("Clean.")
+          PY
