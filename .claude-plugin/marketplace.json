@@ -1,17 +1,17 @@
 {
-  "name": "p1as-claude-plugins",
+  "name": "gitops-plugins",
   "owner": {
-    "name": "P1AS Platform Team"
+    "name": "gitops-mcp contributors"
   },
   "metadata": {
-    "description": "Claude Code plugin marketplace for the P1AS Platform \u2014 skills, agents, and MCP tools for managing P1AS customer environments"
+    "description": "Claude Code plugin marketplace for gitops-mcp — workflow skills, specialist agents, and MCP tools for approval-gated GitOps operations against tenant config repos."
   },
   "plugins": [
     {
-      "name": "p1as",
-      "description": "Full /p1as:* skill catalog (10 workflow + 38 operation skills), @\"p1as:* (agent)\" specialists, and mcp__server__* tools for P1AS customer environment operations",
-      "version": "0.1.24",
-      "source": "./p1as"
+      "name": "gitops",
+      "description": "gitops-mcp — the full /gitops:* skill catalog (workflow + operation skills), specialist agents, and mcp__gitops__* tools. Configurable per-org via the gitops-mcp init scaffold (see https://github.com/<your-user>/gitops-mcp).",
+      "version": "0.2.0",
+      "source": "./gitops"
     }
   ]
 }

@@ -1,0 +1,9 @@
+{
+  "name": "gitops",
+  "description": "gitops-mcp — workflow skills, specialist agents, and MCP tools for approval-gated GitOps operations (config repo reads, secret rotation, kustomize patches, drift detection, AWS SSM, S3 artifacts).",
+  "version": "0.2.0",
+  "author": {
+    "name": "gitops-mcp contributors"
+  },
+  "repository": "https://github.com/<your-user>/gitops-mcp"
+}

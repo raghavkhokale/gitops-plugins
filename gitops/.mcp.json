@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "gitops": {
+      "command": "gitops-mcp-server",
+      "args": [],
+      "env": {
+        "GITOPS_DISABLED_CATEGORIES": "cluster"
+      }
+    }
+  }
+}
