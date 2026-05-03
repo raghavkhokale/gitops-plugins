@@ -1,6 +1,6 @@
 ---
 name: gitops:artifact-download
-description: Download an artifact from S3 (ping-artifacts or pingbinarybucket).
+description: Download an artifact from S3 (<artifacts-bucket>).
 when_to_use: |
   Use this skill to invoke the `artifact_download` operation directly.
   Trigger when the user asks specifically about artifact download or when a workflow skill
@@ -9,7 +9,7 @@ when_to_use: |
 
 # /gitops:artifact-download
 
-Download an artifact from S3 (ping-artifacts or pingbinarybucket).
+Download an artifact from S3 (<artifacts-bucket>).
 
 **MCP tool:** `mcp__gitops__artifact_download`
 
