@@ -1,0 +1,121 @@
+name: ci
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  shellcheck:
+    name: shellcheck (SessionStart hook)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run shellcheck on the SessionStart hook
+        run: |
+          shellcheck gitops/hooks/inject-rules.sh
+
+  json-validity:
+    name: JSON manifests parse
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate JSON
+        run: |
+          set -e
+          for f in \
+            .claude-plugin/marketplace.json \
+            gitops/.claude-plugin/plugin.json \
+            gitops/.mcp.json \
+            gitops/hooks/hooks.json
+          do
+            echo "Parsing $f"
+            python3 -c "import json,sys; json.load(open('$f'))"
+          done
+
+  manifest-shape:
+    name: Manifest shape sanity checks
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify required fields
+        run: |
+          python3 - <<'PY'
+          import json, sys
+
+          mp = json.load(open(".claude-plugin/marketplace.json"))
+          assert mp["name"] == "gitops-plugins", f"marketplace name drift: {mp['name']!r}"
+          assert any(p["name"] == "gitops" for p in mp["plugins"]), "gitops plugin not registered"
+
+          plugin = json.load(open("gitops/.claude-plugin/plugin.json"))
+          assert plugin["name"] == "gitops", f"plugin name drift: {plugin['name']!r}"
+
+          mcp = json.load(open("gitops/.mcp.json"))
+          servers = mcp["mcpServers"]
+          assert "gitops" in servers, f"MCP server name not 'gitops': {list(servers)}"
+          assert servers["gitops"]["command"] == "gitops-mcp-server", \
+              f"MCP command drift: {servers['gitops']['command']!r}"
+
+          print("All manifest shape checks passed.")
+          PY
+
+  skill-frontmatter:
+    name: Every SKILL.md has valid frontmatter + names match dir
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate skills
+        run: |
+          python3 - <<'PY'
+          import re, sys
+          from pathlib import Path
+
+          fail = 0
+          for skill_md in sorted(Path("gitops/skills").rglob("SKILL.md")):
+              dir_name = skill_md.parent.name
+              text = skill_md.read_text()
+              m = re.match(r"^---\n(.*?)\n---", text, re.DOTALL)
+              if not m:
+                  print(f"FAIL no frontmatter: {skill_md}")
+                  fail += 1
+                  continue
+              name_match = re.search(r"^name:\s*(\S+)", m.group(1), re.MULTILINE)
+              if not name_match:
+                  print(f"FAIL no `name:` in frontmatter: {skill_md}")
+                  fail += 1
+                  continue
+              name = name_match.group(1)
+              if not name.startswith("gitops:"):
+                  print(f"FAIL skill name {name!r} missing gitops: prefix: {skill_md}")
+                  fail += 1
+                  continue
+              expected = f"gitops:{dir_name}"
+              if name != expected:
+                  print(f"FAIL name {name!r} != dir-derived {expected!r}: {skill_md}")
+                  fail += 1
+          if fail:
+              sys.exit(f"{fail} skill validation failures")
+          print("All skills valid.")
+          PY
+
+  no-leaks:
+    name: No P1AS / company-brand leaks in shipped artifacts
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Grep for forbidden tokens (excluding MIGRATION + README references)
+        run: |
+          # MIGRATION.md is the rename map and intentionally references
+          # the old names; README has one bullet pointing at MIGRATION.
+          if grep -rEi 'pingidentity|forgeblocks|beluga|deloitte' \
+              --exclude=MIGRATION.md --exclude=README.md --exclude=audit.txt \
+              --exclude-dir=.git \
+              .; then
+            echo "Forbidden brand tokens found in shipped artifacts."
+            exit 1
+          fi
+          echo "Clean."
